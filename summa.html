@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroDesk X1 — Apple Style Cinematic Ad</title>
+
+<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+<style>
+body {
+margin: 0;
+background: black;
+font-family: Arial;
+}
+
+/* MAIN UI PANEL */
+.overlay {
+position: absolute;
+top: 20px;
+left: 20px;
+color: white;
+background: rgba(0,0,0,0.5);
+padding: 15px;
+border-radius: 10px;
+z-index: 999;
+}
+
+/* BUTTON STYLE */
+button {
+padding: 10px;
+margin-top: 5px;
+cursor: pointer;
+border-radius:6px;
+border:none;
+background:linear-gradient(45deg,#00ccff,#0066ff);
+color:white;
+font-weight:bold;
+display:block;
+width:160px;
+}
+
+button:hover{
+transform:scale(1.05);
+box-shadow:0 0 10px #00ccff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✅ UI MUST BE OUTSIDE A-SCENE -->
+<div class="overlay">
+
+<h3>AstroDesk X1</h3>
+
+<button onclick="enterVR()">Enter VR Experience</button>
+
+<h4>Choose Space Environment</h4>
+
+<button onclick="changeSpace('space1.jpg')">Galaxy</button>
+<button onclick="changeSpace('space2.jpg')">Nebula</button>
+<button onclick="changeSpace('space3.jpg')">Planet</button>
+<button onclick="changeSpace('space4.jpg')">Stars</button>
+<button onclick="changeSpace('space5.jpg')">Moon</button>
+<button onclick="changeSpace('space6.jpg')">Universe</button>
+<button onclick="changeSpace('space7.jpg')">Red Galaxy</button>
+<button onclick="changeSpace('space8.jpg')">Earth Bloom</button>
+<button onclick="changeSpace('space9.jpg')">Milkyway</button>
+<button onclick="changeSpace('space10.jpg')">Blue Earth</button>
+
+</div>
+
+
+<!-- ✅ 3D SCENE -->
+<a-scene>
+
+<!-- SKY BACKGROUND -->
+<a-sky id="spaceSky" src="space1.jpg" rotation="0 -90 0"></a-sky>
+
+
+<!-- LIGHTING -->
+<a-light type="hemisphere" color="#ffffff" groundColor="#000814" intensity="0.6"></a-light>
+
+<a-light type="ambient" intensity="0.7"></a-light>
+
+<a-light type="point" position="0 4 -2" intensity="3"></a-light>
+
+<a-light type="point" position="0 6 -4" intensity="2"></a-light>
+
+
+<!-- FLOOR -->
+<a-plane rotation="-90 0 0" width="30" height="30" color="#111" opacity="0.6"></a-plane>
+
+
+<!-- GLOW RING -->
+<a-ring position="0 0.05 -4"
+rotation="-90 0 0"
+radius-inner="1.5"
+radius-outer="1.7"
+color="#00ccff"
+opacity="0.2"
+animation="property: opacity;
+to: 0.5;
+dir: alternate;
+loop: true;
+dur: 2000">
+</a-ring>
+
+
+<!-- PRODUCT -->
+<a-entity id="productContainer"
+animation__float="
+property: position;
+to: 0 0.1 0;
+dir: alternate;
+loop: true;
+dur: 3000">
+
+<a-box id="deskSurface"
+position="0 1 -4"
+width="3"
+height="0.15"
+depth="1.5"
+
+material="
+color:#ffffff;
+opacity:0.35;
+transparent:true;
+metalness:1;
+roughness:0.05;
+envMapIntensity:2">
+
+animation__float="
+property: position;
+to: 0 1.05 -4;
+dir: alternate;
+loop: true;
+dur: 3000;
+easing: easeInOutSine">
+</a-box>
+<!-- FRONT EDGE GLOW -->
+<a-box
+position="0 1.01 -3.25"
+width="3.05"
+height="0.02"
+depth="0.02"
+material="
+color:#00ccff;
+emissive:#00ccff;
+emissiveIntensity:2;
+transparent:true;
+opacity:0.8">
+
+animation="
+property: emissiveIntensity;
+to: 4;
+dir: alternate;
+loop: true;
+dur: 1500">
+</a-box>
+
+
+<!-- BACK EDGE GLOW -->
+<a-box
+position="0 1.01 -4.75"
+width="3.05"
+height="0.02"
+depth="0.02"
+material="
+color:#00ccff;
+emissive:#00ccff;
+emissiveIntensity:2;
+transparent:true;
+opacity:0.8">
+
+animation="
+property: emissiveIntensity;
+to: 4;
+dir: alternate;
+loop: true;
+dur: 1500">
+</a-box>
+
+
+<!-- LEFT EDGE GLOW -->
+<a-box
+position="-1.5 1.01 -4"
+width="0.02"
+height="0.02"
+depth="1.55"
+material="
+color:#00ccff;
+emissive:#00ccff;
+emissiveIntensity:2;
+transparent:true;
+opacity:0.8">
+
+animation="
+property: emissiveIntensity;
+to: 4;
+dir: alternate;
+loop: true;
+dur: 1500">
+</a-box>
+
+
+<!-- RIGHT EDGE GLOW -->
+<a-box
+position="1.5 1.01 -4"
+width="0.02"
+height="0.02"
+depth="1.55"
+material="
+color:#00ccff;
+emissive:#00ccff;
+emissiveIntensity:2;
+transparent:true;
+opacity:0.8">
+
+animation="
+property: emissiveIntensity;
+to: 4;
+dir: alternate;
+loop: true;
+dur: 1500">
+</a-box>
+
+<!-- CINEMATIC LIGHT SWEEP -->
+<a-plane
+id="lightSweep"
+position="-2 1.06 -4"
+rotation="-90 0 0"
+width="0.5"
+height="1.6"
+
+material="
+color:#ffffff;
+transparent:true;
+opacity:0.0;
+emissive:#ffffff;
+emissiveIntensity:3">
+
+animation__move="
+property: position;
+from: -2 1.06 -4;
+to: 2 1.06 -4;
+loop: true;
+dur: 3000;
+easing: linear"
+
+animation__fadein="
+property: material.opacity;
+from: 0;
+to: 0.6;
+dir: alternate;
+loop: true;
+dur: 1500">
+</a-plane>
+
+<a-box position="-1.2 0.5 -4" width="0.2" height="1" depth="0.2" color="#777"></a-box>
+
+<a-box position="1.2 0.5 -4" width="0.2" height="1" depth="0.2" color="#777"></a-box>
+
+<a-box position="0 0.95 -4"
+width="3"
+height="0.05"
+depth="1.5"
+color="#00ccff"
+opacity="0.9"
+animation="
+property: opacity;
+to: 0.3;
+dir: alternate;
+loop: true;
+dur: 1000">
+</a-box>
+
+<!-- MINI COMPUTER SYSTEM -->
+<a-box
+position="0 1.15 -4"
+width="0.5"
+height="0.08"
+depth="0.35"
+
+material="
+color:#111;
+metalness:0.8;
+roughness:0.2">
+
+
+</a-box>
+
+<!-- SCREEN -->
+<a-plane
+position="0 1.35 -4.15"
+width="0.45"
+height="0.25"
+
+material="
+color:#00ccff;
+emissive:#00ccff;
+emissiveIntensity:1">
+
+</a-plane>
+
+</a-entity>
+
+
+<!-- HERO TEXT -->
+<a-text
+value="AstroDesk X1"
+position="0 4 -1.5"
+align="center"
+color="#ffffff"
+scale="4 4 4"
+material="depthTest:false">
+</a-text>
+
+
+<!-- CAMERA -->
+<a-entity id="cameraRig" position="0 1.6 8">
+
+<a-entity id="cameraOrbit"
+animation__rotate="
+property: rotation;
+to: 0 360 0;
+loop: true;
+dur: 30000;
+easing: linear">
+
+<a-entity camera look-controls wasd-controls></a-entity>
+
+</a-entity>
+</a-entity>
+
+
+<!-- HERO SPOTLIGHT -->
+<a-light
+type="spot"
+color="#ffffff"
+intensity="6"
+angle="35"
+position="0 6 -3"
+target="#desk">
+</a-light>
+
+
+<!-- CYLINDER BEAM -->
+<a-cylinder
+position="0 3 -4"
+radius="1.5"
+height="6"
+color="#00ccff"
+open-ended="true"
+side="double"
+material="transparent:true; opacity:0.12; depthWrite:false"
+animation="
+property: material.opacity;
+to: 0.22;
+dir: alternate;
+loop: true;
+dur: 2000">
+</a-cylinder>
+
+<!-- FLOATING PARTICLES -->
+<a-entity id="particles">
+
+<a-sphere position="1 2 -4" radius="0.03"
+material="color:#00ccff; emissive:#00ccff; emissiveIntensity:3"
+
+animation="
+property: position;
+to: 1 3 -4;
+dir: alternate;
+loop: true;
+dur: 2000">
+</a-sphere>
+
+<a-sphere position="-1 2.5 -4" radius="0.02"
+material="color:#ffffff; emissive:#ffffff; emissiveIntensity:2"
+
+animation="
+property: position;
+to: -1 3.5 -4;
+dir: alternate;
+loop: true;
+dur: 2500">
+</a-sphere>
+
+<a-sphere position="0.5 2 -3.5" radius="0.025"
+material="color:#00ccff; emissive:#00ccff; emissiveIntensity:2"
+
+animation="
+property: position;
+to: 0.5 3 -3.5;
+dir: alternate;
+loop: true;
+dur: 3000">
+</a-sphere>
+
+</a-entity>
+
+<!-- BOOK GROUP -->
+<a-entity position="-0.8 1.16 -4">
+
+    <!-- Book pages -->
+    <a-box
+    width="0.45"
+    height="0.05"
+    depth="0.6"
+    material="
+    color:#f5f5f5;
+    roughness:0.8">
+    </a-box>
+
+    <!-- Book cover top -->
+    <a-box
+    position="0 0.03 0"
+    width="0.47"
+    height="0.02"
+    depth="0.62"
+    material="
+    color:#00ccff;
+    metalness:0.6;
+    roughness:0.2">
+    </a-box>
+
+    <!-- Book spine -->
+    <a-box
+    position="-0.23 0 0"
+    width="0.02"
+    height="0.06"
+    depth="0.62"
+    color="#0088aa">
+    </a-box>
+
+
+</a-entity>
+
+</a-scene>
+
+
+<script>
+function changeSpace(image)
+{
+    document.getElementById("spaceSky").setAttribute("src", image);
+
+    document.getElementById("deskSurface").setAttribute("material", {
+        src: image,
+        transparent: true,
+        opacity: 0.5,
+        metalness: 0.9,
+        roughness: 0.05
+    });
+}
+</script>
+
+</body>
+</html>

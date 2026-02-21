@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroDesk X1 Cinematic</title>
+
+<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+<style>
+body{
+margin:0;
+background:black;
+font-family:Arial;
+overflow:hidden;
+}
+
+.panel{
+position:absolute;
+top:20px;
+left:20px;
+width:220px;
+padding:15px;
+background:rgba(0,0,0,0.6);
+border-radius:12px;
+color:white;
+z-index:999;
+}
+
+.panel button{
+width:100%;
+margin:6px 0;
+padding:10px;
+border:none;
+border-radius:8px;
+background:linear-gradient(45deg,#00ccff,#0066ff);
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.panel button:hover{
+box-shadow:0 0 20px #00ccff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+
+<h2>AstroDesk X1</h2>
+
+<button onclick="startAd()">Start Advertisement</button>
+<button onclick="autoTour()">Auto Tour</button>
+<button onclick="stopTour()">Stop</button>
+
+<hr>
+
+Theme:
+
+<button onclick="changeSpace('space1.jpg')">Galaxy</button>
+<button onclick="changeSpace('space2.jpg')">Nebula</button>
+<button onclick="changeSpace('space3.jpg')">Planet</button>
+<button onclick="changeSpace('space4.jpg')">Stars</button>
+<button onclick="changeSpace('space5.jpg')">Moon</button>
+<button onclick="changeSpace('space6.jpg')">Universe</button>
+<button onclick="changeSpace('space7.jpg')">Red Galaxy</button>
+<button onclick="changeSpace('space8.jpg')">Earth Bloom</button>
+<button onclick="changeSpace('space9.jpg')">Milkyway</button>
+<button onclick="changeSpace('space10.jpg')">Blue Earth</button>
+
+</div>
+
+
+<a-scene shadow="type:pcfsoft">
+
+    <!-- VR Controller -->
+<a-entity 
+    laser-controls="hand: right"
+    raycaster="objects: .clickable"
+    line="color: #00ccff">
+</a-entity>
+
+<!-- Mouse Support -->
+<a-entity 
+    cursor="rayOrigin: mouse"
+    raycaster="objects: .clickable">
+</a-entity>
+
+<!-- Opening Ad Sound -->
+<a-entity id="adSound"
+sound="src: url(opening.mp3); autoplay: false; loop: false; volume: 1; positional: false">
+</a-entity>
+
+<!-- Auto Tour Sound -->
+<a-entity id="tourSound"
+sound="src: url(tour.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+<!-- THEME SOUNDS -->
+
+<a-entity id="theme1Sound"
+sound="src: url(theme1.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme2Sound"
+sound="src: url(theme2.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme3Sound"
+sound="src: url(theme3.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme4Sound"
+sound="src: url(theme4.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme5Sound"
+sound="src: url(theme5.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme6Sound"
+sound="src: url(theme6.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme7Sound"
+sound="src: url(theme7.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme8Sound"
+sound="src: url(theme8.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme9Sound"
+sound="src: url(theme9.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+<a-entity id="theme10Sound"
+sound="src: url(theme10.mp3); autoplay: false; loop: true; volume: 0.8; positional: false">
+</a-entity>
+
+
+
+<a-sky id="sky" src="space1.jpg"></a-sky>
+
+<a-plane rotation="-90 0 0" width="60" height="60" color="#000" shadow="receive:true"></a-plane>
+
+<a-light type="ambient" intensity="0.5"></a-light>
+
+<a-light id="mainLight"
+type="spot"
+position="0 8 -3"
+angle="45"
+intensity="0"
+target="#desk"
+castShadow="true">
+</a-light>
+
+<a-light type="point" position="0 4 -3" intensity="1.3" color="#ffffff"></a-light>
+
+<a-cylinder id="beam"
+position="0 3 -4"
+radius="1.5"
+height="6"
+color="#00ccff"
+open-ended="true"
+material="transparent:true; opacity:0.12;">
+</a-cylinder>
+
+<a-entity id="particles"></a-entity>
+
+<a-entity id="deskGroup" position="0 -3 -4">
+
+<a-plane id="deskShine"
+position="0 1.12 -4"
+rotation="-90 0 0"
+width="3"
+height="1.5"
+material="color:#ffffff; transparent:true; opacity:0;">
+</a-plane>
+
+<a-box id="desk"
+width="3"
+height="0.15"
+depth="1.5"
+color="#ffffff"
+material="metalness:0.6; roughness:0.3;">
+</a-box>
+
+<a-box position="-1.2 -0.5 0" width="0.2" height="1" depth="0.2" color="#dddddd"></a-box>
+<a-box position="1.2 -0.5 0" width="0.2" height="1" depth="0.2" color="#dddddd"></a-box>
+
+<a-box position="-0.6 0.12 0" width="0.6" height="0.05" depth="0.4" color="#00ccff"></a-box>
+
+<a-box position="0.6 0.15 0" width="0.4" height="0.2" depth="0.3" color="#111"></a-box>
+
+</a-entity>
+<!-- MAIN VR CONTROL PANEL -->
+<a-entity id="vrPanel" position="6 2 -4 " rotation="0 -90 0">
+
+    <!-- Background -->
+    <a-plane width="5" height="4" color="#111" opacity="0.85"
+             material="side:double"></a-plane>
+
+    <!-- TITLE -->
+    <a-text value="AstroDesk X1 Control"
+            position="0 1.6 0.1"
+            align="center"
+            color="#00ccff"
+            scale="0.7 0.7 0.7">
+    </a-text>
+
+    <!-- ===== ROW 1 : MAIN CONTROLS ===== -->
+
+    <a-box class="clickable" position="-1.5 1 0.1"
+        width="1.2" height="0.4" depth="0.2"
+        color="#00ccff"
+        onclick="startAd()"></a-box>
+    <a-text value="Start Ad"
+        position="-1.5 1 0.25"
+        align="center"
+        scale="0.5 0.5 0.5"></a-text>
+
+    <a-box class="clickable" position="0 1 0.1"
+        width="1.2" height="0.4" depth="0.2"
+        color="#33cc33"
+        onclick="autoTour()"></a-box>
+    <a-text value="Auto Tour"
+        position="0 1 0.25"
+        align="center"
+        scale="0.5 0.5 0.5"></a-text>
+
+    <a-box class="clickable" position="1.5 1 0.1"
+        width="1.2" height="0.4" depth="0.2"
+        color="#ff3300"
+        onclick="stopTour()"></a-box>
+    <a-text value="Stop"
+        position="1.5 1 0.25"
+        align="center"
+        scale="0.5 0.5 0.5"></a-text>
+
+    <!-- ===== THEME ROW 1 ===== -->
+
+    <a-box class="clickable" position="-2 0.2 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#00ccff"
+        onclick="changeSpace('space1.jpg')"></a-box>
+    <a-text value="Galaxy"
+        position="-2 0.2 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <a-box class="clickable" position="-0.7 0.2 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#0066ff"
+        onclick="changeSpace('space2.jpg')"></a-box>
+    <a-text value="Nebula"
+        position="-0.7 0.2 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <a-box class="clickable" position="0.7 0.2 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#9900ff"
+        onclick="changeSpace('space3.jpg')"></a-box>
+    <a-text value="Planet"
+        position="0.7 0.2 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <a-box class="clickable" position="2 0.2 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#ff00cc"
+        onclick="changeSpace('space4.jpg')"></a-box>
+    <a-text value="Stars"
+        position="2 0.2 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <!-- ===== THEME ROW 2 ===== -->
+
+    <a-box class="clickable" position="-2 -0.7 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#00ffaa"
+        onclick="changeSpace('space5.jpg')"></a-box>
+    <a-text value="Moon"
+        position="-2 -0.7 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <a-box class="clickable" position="-0.7 -0.7 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#ffaa00"
+        onclick="changeSpace('space6.jpg')"></a-box>
+    <a-text value="Universe"
+        position="-0.7 -0.7 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <a-box class="clickable" position="0.7 -0.7 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#ff3300"
+        onclick="changeSpace('space7.jpg')"></a-box>
+    <a-text value="Red Galaxy"
+        position="0.7 -0.7 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <a-box class="clickable" position="2 -0.7 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#33cc33"
+        onclick="changeSpace('space8.jpg')"></a-box>
+    <a-text value="Earth Bloom"
+        position="2 -0.7 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <!-- ===== THEME ROW 3 ===== -->
+
+    <a-box class="clickable" position="-0.7 -1.5 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#00ffff"
+        onclick="changeSpace('space9.jpg')"></a-box>
+    <a-text value="Milkyway"
+        position="-0.7 -1.5 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+    <a-box class="clickable" position="0.7 -1.5 0.1"
+        width="0.9" height="0.35" depth="0.2"
+        color="#ffffff"
+        onclick="changeSpace('space10.jpg')"></a-box>
+    <a-text value="Blue Earth"
+        position="0.7 -1.5 0.25"
+        align="center"
+        scale="0.45 0.45 0.45"></a-text>
+
+</a-entity>
+
+
+
+
+
+
+<a-text id="title"
+value="AstroDesk X1"
+position="0 3 -2.5"
+align="center"
+color="#ffffff"
+scale="0.01 0.01 0.01"
+opacity="0">
+</a-text>
+
+<a-text id="featureText"
+value=""
+position="0 2.2 -4"
+align="center"
+color="#00ccff"
+scale="0.5 0.5 0.5"
+opacity="0">
+</a-text>
+
+<a-entity id="cameraRig" position="0 1.6 10">
+    <a-entity 
+        id="camera"
+        camera
+        look-controls
+        wasd-controls="acceleration: 50"
+        movement-controls="controls: wasd, arrow">
+    </a-entity>
+</a-entity>
+
+</a-scene>
+
+<script>
+
+let adStarted=false;
+let tourRunning=false;
+let tourInterval;
+
+let rotationSpeed = 0;
+let targetSpeed = 0;
+let inertiaActive = false;
+
+
+/* START AD */
+function startAd(){
+
+if(adStarted) return;
+adStarted=true;
+
+let desk=document.getElementById("deskGroup");
+let cam=document.getElementById("cameraRig");
+let light=document.getElementById("mainLight");
+
+desk.setAttribute("animation",
+"property:position; to:0 1 -4; dur:3000");
+
+cam.setAttribute("animation",
+"property:position; to:0 1.6 5; dur:4000");
+
+light.setAttribute("animation",
+"property:intensity; to:8; dur:3000");
+
+setTimeout(()=>{
+document.getElementById("title").setAttribute("opacity",1);
+document.getElementById("title").setAttribute("animation",
+"property:scale; to:5 5 5; dur:2000");
+},3500);
+
+cinematicFocusSequence();
+lightSweep();
+createParticles();
+startFeatureSequence();
+
+shineSweep();
+
+/* PLAY SOUND */
+/* PLAY OPENING SOUND */
+let adAudio = document.getElementById("adSound");
+if(adAudio && adAudio.components.sound){
+    adAudio.components.sound.stopSound(); 
+    adAudio.components.sound.playSound();
+}
+
+
+}
+
+
+/* CHANGE SPACE */
+function changeSpace(img){
+
+// Change Sky
+document.getElementById("sky").setAttribute("src",img);
+
+let desk=document.getElementById("desk");
+
+desk.setAttribute("material",{
+src: img,
+metalness:0.6,
+roughness:0.3
+});
+
+// STOP ALL THEME SOUNDS FIRST
+for(let i=1;i<=10;i++){
+let s=document.getElementById("theme"+i+"Sound");
+if(s && s.components.sound){
+s.components.sound.stopSound();
+}
+}
+
+// DETECT WHICH THEME WAS CLICKED
+let themeNumber = img.match(/\d+/)[0]; // gets number from spaceX.jpg
+
+let currentSound = document.getElementById("theme"+themeNumber+"Sound");
+
+if(currentSound && currentSound.components.sound){
+currentSound.components.sound.playSound();
+}
+
+// Optional camera rotation
+let cam=document.getElementById("cameraRig");
+
+cam.removeAttribute("animation__rotate");
+
+cam.setAttribute("animation__rotate",{
+property:"rotation",
+to:"0 360 0",
+dur:20000,
+loop:true,
+easing:"linear"
+});
+
+}
+
+
+
+/* AUTO TOUR */
+function autoTour(){
+
+if(tourRunning) return;
+tourRunning=true;
+
+let cam=document.getElementById("cameraRig");
+
+let views=[
+{pos:"0 2 8",rot:"0 0 0"},
+{pos:"5 2 -4",rot:"0 90 0"},
+{pos:"0 6 -4",rot:"-60 0 0"},
+{pos:"-5 2 -4",rot:"0 -90 0"},
+{pos:"0 1.6 -2",rot:"0 0 0"}
+];
+
+let i=0;
+
+function moveCamera(){
+
+cam.setAttribute("animation",
+"property:position; to:"+views[i].pos+"; dur:5000; easing:easeInOutQuad");
+
+cam.setAttribute("animation__rot",
+"property:rotation; to:"+views[i].rot+"; dur:5000; easing:easeInOutQuad");
+
+i++;
+if(i>=views.length) i=0;
+
+}
+
+moveCamera();
+
+/* was 3000 → now 6000 */
+tourInterval=setInterval(moveCamera,6000);
+
+/* PLAY TOUR SOUND */
+let tourAudio = document.getElementById("tourSound");
+if(tourAudio && tourAudio.components.sound){
+    tourAudio.components.sound.stopSound();
+    tourAudio.components.sound.playSound();
+}
+
+
+}
+
+
+/* STOP TOUR */
+function stopTour(){
+
+tourRunning=false;
+
+clearInterval(tourInterval);
+
+let cam=document.getElementById("cameraRig");
+
+cam.removeAttribute("animation");
+cam.removeAttribute("animation__rot");
+/* STOP TOUR SOUND */
+let tourAudio = document.getElementById("tourSound");
+if(tourAudio && tourAudio.components.sound){
+    tourAudio.components.sound.stopSound();
+}
+
+
+}
+
+
+/* SHINE */
+function shineSweep(){
+
+let shine=document.getElementById("deskShine");
+
+shine.setAttribute("material","opacity",0.6);
+
+shine.setAttribute("animation__move",
+"property:position; to:2 1.12 -4; dur:2000");
+
+shine.setAttribute("animation__fade",
+"property:material.opacity; to:0; dur:2000");
+
+}
+
+
+/* LIGHT */
+function lightSweep(){
+
+let beam=document.getElementById("beam");
+
+beam.setAttribute("animation__sweep",
+"property:rotation; to:0 360 0; dur:6000; loop:true");
+
+}
+
+
+/* CAMERA FOCUS */
+function cinematicFocusSequence(){
+
+let cam=document.getElementById("cameraRig");
+
+setTimeout(()=>cam.setAttribute("animation__focus1","property:position; to:-1.5 1.6 4; dur:2000"),3000);
+setTimeout(()=>cam.setAttribute("animation__focus2","property:position; to:1.5 1.6 4; dur:2000"),6000);
+setTimeout(()=>cam.setAttribute("animation__focus3","property:position; to:0 2.5 4; dur:2000"),9000);
+setTimeout(()=>cam.setAttribute("animation__focus4","property:position; to:0 1.6 5; dur:2000"),12000);
+
+}
+
+
+/* PARTICLES */
+function createParticles(){
+
+let container=document.getElementById("particles");
+
+for(let i=0;i<40;i++){
+
+let p=document.createElement("a-sphere");
+
+let x=(Math.random()*3)-1.5;
+let y=Math.random()*4;
+let z=-4;
+
+p.setAttribute("position",`${x} ${y} ${z}`);
+p.setAttribute("radius","0.03");
+p.setAttribute("color","#00ccff");
+
+p.setAttribute("animation",
+`property:position; to:${x} ${y+2} ${z}; dur:4000; loop:true; dir:alternate`);
+
+container.appendChild(p);
+
+}
+
+}
+
+
+/* TEXT */
+function popFeature(text,delay){
+
+let f=document.getElementById("featureText");
+
+setTimeout(()=>{
+
+f.setAttribute("value",text);
+
+f.setAttribute("animation__fadein",
+"property:opacity; to:1; dur:800");
+
+setTimeout(()=>{
+f.setAttribute("animation__fadeout",
+"property:opacity; to:0; dur:1000");
+},3000);
+
+},delay);
+
+}
+
+
+/* WORD SEQUENCE */
+function startFeatureSequence(){
+
+let words=[
+"Smart Lighting System",
+"Premium Aerospace Metal",
+"Minimal Modern Design",
+"Comfort Focus Engineering",
+"Immersive Study Environment",
+"Advanced Productivity Setup",
+"Future Ready Workspace",
+"Elegant Floating Structure",
+"Precision Crafted Finish",
+"AstroDesk X1"
+];
+
+let delay=5000;
+
+for(let w of words){
+popFeature(w,delay);
+delay+=3500;
+}
+
+}
+
+document.addEventListener("keydown", function(event){
+
+let key = event.key.toLowerCase();
+
+switch(key){
+
+// START AD
+case "a":
+startAd();
+break;
+
+// AUTO TOUR
+case "t":
+autoTour();
+break;
+
+// STOP TOUR
+case "s":
+stopTour();
+break;
+
+// THEMES 1–10
+case "1":
+changeSpace("space1.jpg");
+break;
+
+case "2":
+changeSpace("space2.jpg");
+break;
+
+case "3":
+changeSpace("space3.jpg");
+break;
+
+case "4":
+changeSpace("space4.jpg");
+break;
+
+case "5":
+changeSpace("space5.jpg");
+break;
+
+case "6":
+changeSpace("space6.jpg");
+break;
+
+case "7":
+changeSpace("space7.jpg");
+break;
+
+case "8":
+changeSpace("space8.jpg");
+break;
+
+case "9":
+changeSpace("space9.jpg");
+break;
+
+case "0":
+changeSpace("space10.jpg");
+break;
+
+}
+
+});
+
+
+
+</script>
+
+</body>
+</html>
